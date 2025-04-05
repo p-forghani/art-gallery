@@ -1,23 +1,29 @@
-# backend/app/__init__.py
 
-from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_jwt_extended import JWTManager
-from flask_cors import CORS
+from flask import Flask
 from config import Config
 
-db = SQLAlchemy()
-jwt = JWTManager()
 
+db = SQLAlchemy()
+
+
+# Initialize the Flask application
 def create_app():
+
     app = Flask(__name__)
+
+    # Load configuration
     app.config.from_object(Config)
 
-    CORS(app)
+    # Initialize the database
     db.init_app(app)
-    jwt.init_app(app)
 
-    from app.routes.auth import auth_bp
-    app.register_blueprint(auth_bp, url_prefix='/auth')
+    # Register blueprints
+    from backend.app.routes import auth as auth_blueprint
+    from backend.app.routes import admin as admin_blueprint
+    from backend.app.routes import store as store_blueprint
+    app.register_blueprint(auth_blueprint)
+    app.register_blueprint(admin_blueprint)
+    app.register_blueprint(store_blueprint)
 
     return app

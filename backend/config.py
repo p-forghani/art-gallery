@@ -1,7 +1,13 @@
-# backend/config.py
+import os
+from pathlib import Path
+
+
+base_dir = Path(__file__).resolve().parent
+
 
 class Config:
-    SECRET_KEY = 'super-secret-key'
-    JWT_SECRET_KEY = 'jwt-secret-key'
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///app.db'
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SECRET_KEY = os.getenv('SECRET_KEY')
+    SQLALCHEMY_DATABASE_URI = (
+        os.environ.get('DATABASE_URL')
+        or 'sqlite:///' + os.path.join(base_dir, 'app.db')
+    )
