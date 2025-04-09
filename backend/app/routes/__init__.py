@@ -1,7 +1,9 @@
 from flask import Blueprint
-
-auth = Blueprint('auth', __name__, url_prefix='/auth')
-admin = Blueprint('admin', __name__, url_prefix='/admin')
-store = Blueprint('store', __name__)
+from app.routes.auth import auth_bp
+from app.routes.admin import admin_bp
+from app.routes.store import store_bp
+from app.routes.static import static_bp
 
 ##from app.routes import auth_routes, admin_routes, store_routes  # noqa
+
+__all__ = ['auth_bp', 'admin_bp', 'store_bp', 'static_bp']
